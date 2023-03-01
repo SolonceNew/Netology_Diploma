@@ -25,6 +25,8 @@ public class UserDetailsServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    String testAuthToken = "Bearer_testAuthToken";
+
 
 
     @BeforeEach
@@ -34,16 +36,16 @@ public class UserDetailsServiceTest {
     @Test
     void loadUserByUsername() {
 
-        when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(new User("name", "pass", ERole.ROLE_USER)));
+        when(userRepository.findByLogin(anyString())).thenReturn(Optional.of(new User("name", "pass", ERole.ROLE_USER)));
         userDetailsService.loadUserByUsername(anyString());
 
-        verify(userRepository, times(1)).findByUsername(any());
+        verify(userRepository, times(1)).findByLogin(any());
     }
 
     @Test
     void loadUserByUsername_UsernameNotFoundException() {
 
-        when(userRepository.findByUsername(anyString())).thenReturn(Optional.empty());
+        when(userRepository.findByLogin(anyString())).thenReturn(Optional.empty());
 
         Assert.assertThrows(UsernameNotFoundException.class,
 

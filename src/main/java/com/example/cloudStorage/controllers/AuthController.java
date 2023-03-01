@@ -10,7 +10,6 @@ import com.example.cloudStorage.security.jwt.JwtUtils;
 import com.example.cloudStorage.service.impl.JwtBlackListServiceImpl;
 import com.example.cloudStorage.service.impl.UserServiceImpl;
 
-import com.example.cloudStorage.util.exceptions.InvalidCredentials;
 import com.example.cloudStorage.util.mapper.UserMapper;
 import com.example.cloudStorage.util.validator.ResponseErrorValidator;
 import com.example.cloudStorage.util.validator.UserValidator;
@@ -29,6 +28,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.util.ObjectUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,9 +39,10 @@ import java.util.Map;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @PreAuthorize("permitAll()")
+@CrossOrigin
 public class AuthController {
 
     AuthenticationManager authenticationManager;
@@ -54,21 +55,24 @@ public class AuthController {
 
 
 
-    @PostMapping("/login")
-     ResponseEntity<?> performLogin(@RequestBody LoginRequest authenticationDto) {
+     @PostMapping("/login")
+     ResponseEntity<?> login(@RequestBody LoginRequest authenticationDto) {
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-    new UsernamePasswordAuthenticationToken(authenticationDto.getUsername(),
+    new UsernamePasswordAuthenticationToken(authenticationDto.getLogin(),
             authenticationDto.getPassword());
         try {
             authenticationManager.authenticate(usernamePasswordAuthenticationToken);
         } catch (BadCredentialsException e) {
-            throw new InvalidCredentials("Invalid username or password");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad Credentials", e);
+
+
         }
-        String token = jwtUtils.generateToken(authenticationDto.getUsername());
+        String token = jwtUtils.generateToken(authenticationDto.getLogin());
         Map<String, String> response = new HashMap<>();
-        response.put("token", token);
-        return ResponseEntity.ok(new JwtResponse(true, "Bearer " + token));
+        response.put("auth-token", token);
+        return ResponseEntity.ok(new JwtResponse(true, token));
     }
+
 
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response,

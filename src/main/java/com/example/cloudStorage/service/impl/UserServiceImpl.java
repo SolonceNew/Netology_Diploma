@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
 
     public User findByUsername(String username) {
-       return userRepository.findByUsername(username)
+       return userRepository.findByLogin(username)
                 .orElse(null);
     }
 
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
 
     private User getUserByPrincipal(Principal principal) {
         String username = principal.getName();
-        return userRepository.findByUsername(username)
+        return userRepository.findByLogin(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User with username " + username
                         + " not found"));
     }

@@ -24,7 +24,7 @@ public class User implements Serializable {
     @NotBlank(message = "Username shouldn't be empty")
     @Size(min=2, max=20, message = "Username should be between 2 and 20 characters")
     @Column(unique = true, name = "username")
-    String username;
+    String login;
 
     @NotBlank
     @Size(min=3, max=60, message = "Password should be between 3 and 60 characters")
@@ -37,8 +37,8 @@ public class User implements Serializable {
     ERole role;
 
 
-    public User(String username, String password, ERole role) {
-        this.username = username;
+    public User(String login, String password, ERole role) {
+        this.login = login;
         this.password = password;
         this.role = role;
     }

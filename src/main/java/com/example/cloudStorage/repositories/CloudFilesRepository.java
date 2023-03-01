@@ -6,6 +6,7 @@ import com.example.cloudStorage.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,11 +24,12 @@ public interface CloudFilesRepository extends JpaRepository<CloudFile, Long> {
 
 
     //поиск файлов по имени файла и юзеру
-    Optional<CloudFile> findCloudFileByNameAndOwner(String fileName, User user);
+    Optional<CloudFile> findCloudFileByNameAndOwner(String filename, User user);
 
-
-    //удаление файла по id
+   //удаление файла по id
 
     void deleteById(Long id);
+
+
 
 }

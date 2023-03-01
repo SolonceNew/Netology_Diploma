@@ -30,9 +30,9 @@ public class UserValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         User user = (User) target;
-        User userExist = userService.findByUsername(user.getUsername());
+        User userExist = userService.findByUsername(user.getLogin());
         if(userExist != null) {
-            errors.rejectValue("username", "user with a such username already exists");
+            errors.rejectValue("login", "400","user with a such username already exists");
         }
 
     }

@@ -1,5 +1,6 @@
 package com.example.cloudStorage.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -10,7 +11,8 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 public class JwtResponse {
     boolean success;
-    String token;
+    @JsonProperty("auth-token")
+    String authToken;
 
 
 

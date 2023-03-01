@@ -11,15 +11,19 @@ import java.util.Optional;
 
 public interface CloudFilesService {
 
-    CloudFile upload (MultipartFile resource, Principal principal) throws IOException;
+    CloudFile upload (String authToken, String filename, MultipartFile resource) throws IOException;
 
-    List<CloudFile> getAllCloudFileForUser(Principal principal);
+    List<CloudFile> getAllCloudFileForUser(String authToken);
 
-    CloudFile download(String filename, Principal principal);
+    CloudFile download(String filename, String authToken);
 
-    void deleteFile(String filename, Principal principal);
+    void deleteFile(String filename, String authToken);
 
-    Optional<CloudFile> getCloudFileByName(String filename);
+
+    void renameFile(String authToken, String currentFileName,
+                           String newFileName);
+
+
 
 
 

@@ -43,21 +43,17 @@ public class WebSecurityConfig { //WebSecurityConfigurerAdapter has been depreca
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors().and()
-                .csrf().disable()
+        http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .and()
                 .authorizeRequests()
-                .antMatchers("api/admin").hasRole("ADMIN")
-                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/admin").hasRole("ADMIN")
+                .antMatchers("/login", "/signup").permitAll()
                 .anyRequest().hasAnyRole("USER")
-                .and()
-                .formLogin().loginPage("/auth/login")
-                .loginProcessingUrl("/process_login")
-                .failureUrl("/auth/login?error")
+
                 .and()
                 .logout()
-                .logoutUrl("/logout").logoutSuccessUrl("/auth/login")
+                .logoutUrl("/logout").logoutSuccessUrl("/login")
                 .and()
                 .sessionManagement()
                 //сессия на сервере не хранится

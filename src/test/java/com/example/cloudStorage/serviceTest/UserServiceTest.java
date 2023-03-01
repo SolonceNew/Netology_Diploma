@@ -24,9 +24,6 @@ public class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
-    @Mock
-    private Principal principal;
-
 
     @Mock
     private User userStub;
@@ -56,24 +53,15 @@ public class UserServiceTest {
     @Test
      void testFindByUsernameShouldBeNotNull() {
 
-        when(userRepository.findByUsername(defaultUsername))
+        when(userRepository.findByLogin(defaultUsername))
                 .thenReturn(Optional.of(userStub));
         User userEхpected = userService.findByUsername(defaultUsername);
         Assert.assertNotNull(userEхpected);
 
-        verify(userRepository, times(1)).findByUsername(defaultUsername);
+        verify(userRepository, times(1)).findByLogin(defaultUsername);
     }
 
 
-    @Test
-    void testGetCurrentUser() {
-        when(principal.getName()).thenReturn(defaultUsername);
-        when(userRepository.findByUsername(defaultUsername))
-                .thenReturn(Optional.of(userStub));
-        User userExpected = userService.getCurrentUser(principal);
-        Assert.assertNotNull(userExpected);
-
-    }
 
 
 

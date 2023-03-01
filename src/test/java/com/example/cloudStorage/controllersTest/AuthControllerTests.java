@@ -111,7 +111,7 @@ public class AuthControllerTests {
         mockMvc.perform(post("/logout")
                         .header("auth-token", "Bearer jwt"))
                 .andDo(print())
-                .andExpect(redirectedUrl("/auth/login"));
+                .andExpect(redirectedUrl("/login"));
 
     }
 
